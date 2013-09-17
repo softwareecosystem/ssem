@@ -1,0 +1,76 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ssem: <http://purl.org/ssem/core/1.0.0/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://localhost:8080/neologism/ssem> a owl:Ontology;
+    dc:title "SSEM Vocabulary";
+    dc:modified "2013-09-17"^^xsd:date;
+    vann:preferredNamespaceUri "http://purl.org/ssem/core/1.0.0/";
+    vann:preferredNamespacePrefix "ssem";
+    foaf:page <http://localhost:8080/neologism/ssem.html>;
+    dc:creator <http://localhost:8080/neologism/ssem#robbinsd> .
+
+<http://localhost:8080/neologism/ssem#robbinsd> a foaf:Person;
+    foaf:name "David E. Robbins";
+    foaf:homepage <http://about.me/robbinsd> .
+
+<http://localhost:8080/neologism/ssem#Div.%20Informatics%2C%20Dept.%20Pathology%2C%20UAB> a foaf:Organization;
+    foaf:member <http://localhost:8080/neologism/ssem#robbinsd>;
+    foaf:name "Div. Informatics, Dept. Pathology, UAB";
+    foaf:homepage <http://pathuab.infomedia.com/content.asp?id=490515> .
+
+ssem:Constituent a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://localhost:8080/neologism/ssem>;
+    rdfs:label "Constituent";
+    rdfs:comment "A constituent within a software ecosystem, such as a software system or an actor (e.g. user, developer, organization).";
+    rdfs:subClassOf rdfs:Class .
+
+ssem:Supplement a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://localhost:8080/neologism/ssem>;
+    rdfs:label "Supplemental Resource";
+    rdfs:comment "A constituent within a software ecosystem, such as a software system or an actor (e.g. user, developer, organization).";
+    rdfs:subClassOf rdfs:Class .
+
+ssem:Relationship a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://localhost:8080/neologism/ssem>;
+    rdfs:label "Relationship";
+    rdfs:comment "Class of all SSEM relationships.";
+    rdfs:subClassOf rdf:Property .
+
+ssem:supplementedBy a rdf:Property;
+    rdfs:isDefinedBy <http://localhost:8080/neologism/ssem>;
+    rdfs:label "is supplemented by";
+    rdfs:comment "Links a Constituent or relationship to a Supplemental Resource.";
+    rdfs:domain
+        ssem:Constituent,
+        ssem:Relationship;
+    rdfs:range ssem:Supplement;
+    rdfs:subPropertyOf ssem:relationship .
+
+ssem:supplements a rdf:Property;
+    rdfs:isDefinedBy <http://localhost:8080/neologism/ssem>;
+    rdfs:label "supplements";
+    rdfs:comment "Links a Supplemental Resource to the Constituent or relationship it supplements.";
+    rdfs:domain ssem:Supplement;
+    rdfs:range
+        ssem:Relationship,
+        ssem:Constituent;
+    rdfs:subPropertyOf ssem:relationship .
+
+ssem:relationship a rdf:Property;
+    rdfs:isDefinedBy <http://localhost:8080/neologism/ssem>;
+    rdfs:label "relationship";
+    rdfs:comment "Super-property for all SSEM relationships between constituents, relationships, and supplements." .
+
+ssem:interaction a rdf:Property;
+    rdfs:isDefinedBy <http://localhost:8080/neologism/ssem>;
+    rdfs:label "interaction";
+    rdfs:comment "A relationship, or interaction, between two software ecosystem constituents.";
+    rdfs:domain ssem:Constituent;
+    rdfs:range ssem:Constituent;
+    rdfs:subPropertyOf ssem:relationship .
